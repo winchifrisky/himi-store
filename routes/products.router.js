@@ -30,11 +30,15 @@ router.post('/', (req, res) => {
   res.status(201).json(newProduct);
 });
 
-router.patch('/:id', (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  const product = service.update(id, body);
-  res.json(product);
+router.patch('/:id', (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const product = service.update(id, body);
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete('/:id', (req, res) => {

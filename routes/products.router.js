@@ -16,43 +16,27 @@ router.get('/filter', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  if (id === '999') {
-    res.status(404).json({
-      message: 'not founfd'
-    });
-  } else {
-    res.status(200).json({
-      id,
-      name: 'Product 2',
-      price: 550
-    });
-  }
+  const product = service.findOne(id);
+  res.json(product);
 });
 
 router.post('/', (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: 'created',
-    data: body,
-  });
+  const newProduct = service.create(body);
+  res.status(201).json(newProduct);
 });
 
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: 'created',
-    data: body,
-    id,
-  });
+  const product = service.update(id, body);
+  res.json(product);
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: 'deleted',
-    id,
-  });
+  const response = service.delete(id);
+  res.json(response);
 });
 
 module.exports = router;
